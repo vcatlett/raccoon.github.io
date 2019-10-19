@@ -1,3 +1,3 @@
 # TAMU Datathon 2019
-#### Team: [Victoria Catlett](https://github.com/vcatlett), Evan Meade, and Levi
+#### Team: Olusola Babatunde, [Victoria Catlett](https://github.com/vcatlett), Evan Meade, and Levi Nicklas
 Repository where we can share code
