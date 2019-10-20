@@ -1,0 +1,108 @@
+---
+title: "Burritos & Tacos"
+output: html_notebook
+---
+
+```{r Libs}
+library(tidyverse)
+library(lubridate)
+library(tidytext)
+library(Matrix)
+```
+
+
+```{r 0.1 Read-in, message =  FALSE, error = FALSE}
+food <- read_csv("North_America_Only.csv")
+colnames(food)[1] <- "obs_id"
+```
+
+
+```{r 0.2 Data Cleaning}
+food <- food %>% 
+  mutate(dateAdded = as_date(dateAdded),
+         dateUpdated = as_date(dateUpdated))
+```
+
+Tokenize the words and 
+```{r 1.1 Dataset Prep}
+food_words <- food %>% 
+  unnest_tokens(word, menus.description) %>% 
+  anti_join(stop_words) %>% 
+  select(name, menus.name, word) %>% 
+  group_by(name) %>% 
+  mutate(word_order = row_number())
+#write csv
+#write_csv(food_words, "taco-burrito-desc-words.csv")
+```
+
+```{r 1.2 Term Freq}
+library(tm)
+library(topicmodels)
+
+menu_words <- food_words %>%
+  na.omit() %>% 
+  count(name, word, sort = TRUE)
+
+total_words <- menu_words %>% 
+  group_by(name) %>%
+  summarise(total = sum(n))
+
+menu_words <- left_join(menu_words, total_words)
+
+freq_by_rank <- menu_words %>% 
+  group_by(name) %>% 
+  mutate(rank = row_number(), 
+         term_frequency = n/total)
+```
+
+
+```{r 1.3 tf viz}
+freq_by_rank %>% 
+  ggplot(aes(rank, term_frequency, color = name)) + 
+  geom_line(size = 1.1, alpha = 0.8, show.legend = FALSE) + 
+  scale_x_log10() +
+  scale_y_log10()
+```
+
+```{r 1.4 idf}
+# Calculate TF-IDF
+menu_words <- menu_words %>% 
+  bind_tf_idf(word, name, n)
+
+menu_words %>% 
+  select(-total) %>% 
+  arrange(desc(tf_idf))
+
+```
+
+
+```{r}
+menu_dtm <- menu_words %>% 
+  cast_dtm(name, word, n)
+
+menu_lda <- LDA(menu_dtm, 10, control=list(seed = 1048))
+
+menu_topics <- tidy(menu_lda, matrix = 'beta')
+
+top_terms <- menu_topics %>%
+  group_by(topic) %>%
+  top_n(6, beta) %>%
+  ungroup() %>%
+  arrange(topic, -beta)
+
+top_terms %>%
+  mutate(term = reorder_within(term, beta, topic)) %>%
+  ggplot(aes(term, beta, fill = factor(topic))) +
+  geom_col(show.legend = FALSE) +
+  facet_wrap(~ topic, scales = "free") +
+  coord_flip() +
+  scale_x_reordered()
+```
+
+
+```{r}
+word_betas <- tidy(menu_lda)
+
+
+```
+
