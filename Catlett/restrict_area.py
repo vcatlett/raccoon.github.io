@@ -2,7 +2,8 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 
-data = pd.read_csv('data.csv')
+#data = pd.read_csv('data.csv')
+data = pd.read_csv('/Users/victoriacatlett/Desktop/TAMU_Datathon/Data/template_data.csv')
 radii = [1.0, 5.0, 25.0, 50.0, 100.0]
 col_names = ['R1', 'R5', 'R25', 'R50', 'R100']
 
@@ -26,5 +27,7 @@ def find_tacos(user_lat, user_long):
         circle1 = plt.Circle((user_long, user_lat), radius = res_theta, ec = 'r', fc = None, fill = False)
         ax.add_patch(circle1)
         plt.scatter(res_long, res_lat)
-
+        #print(np.where(dist <= (res_theta**2), True, False))
         data[col_names[i]] = np.where(dist <= (res_theta**2), True, False)
+        print(np.where(data[col_names[i]]==True)[0])
+    data.to_csv('/Users/victoriacatlett/Desktop/TAMU_Datathon/Data/template_data.csv')
