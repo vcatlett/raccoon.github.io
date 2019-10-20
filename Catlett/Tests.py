@@ -12,10 +12,10 @@ import matplotlib.pyplot as plt
 #from mpl_toolkits.basemap import Basemap
 import pandas as pd
 import shapefile
-import plotly.graph_objects as go
-
+import seaborn as sns
+import json
 pathname = '/Users/victoriacatlett/Desktop/TAMU_Datathon/Data/'
-datafile = 'Reduced_GS.csv'
+datafile = 'template_data_filled.csv'
 
 data = pd.read_csv(pathname + datafile)
 shpFilePath = "/Users/victoriacatlett/Desktop/TAMU_Datathon/Data/states_21basic/states.shp"  
@@ -27,24 +27,29 @@ for sr in test.shapeRecords():
         locs[0].append(xNew)
         locs[1].append(yNew)
 
-
 '''
 null_data = data.loc[:, data.columns.str.contains('^Unnamed')]
 null_counts = sum(null_data.count())
 data = data.loc[:, ~data.columns.str.contains('^Unnamed')]
 print(data.columns)
 data.to_csv(pathname + 'Reduced_GS.csv')
-'''
+
 na_indx = np.where((data['longitude']<(-50)) & (data['latitude']>0))
 new_data = data.loc[(data['longitude']<(-50)) & (data['latitude']>0)]
 new_data = new_data.loc[:, ~data.columns.str.contains('^Unnamed')]
 #new_data = new_data.drop['Unnamed: 0',axis = 1]
 new_data.to_csv(pathname + 'North_America_Only.csv')
 #long_indx = np.where(data['longitude']>0)
+'''
+
 latitude = data['latitude'].values
 longitude = data['longitude'].values
+types = data['Item_Type'].values
 #lat,long = np.meshgrid(latitude,longitude)
 fig = plt.figure()
-#plt.scatter(longitude[long_indx],latitude[lat_indx])
 plt.plot(locs[0],locs[1],'.k')
-plt.scatter(new_data['longitude'],new_data['latitude'],color='r')
+colors = ['r','darkorange','gold','limegreen','darkgreen','cyan','b','purple','grey','k']
+
+sns.scatterplot(longitude,latitude, hue = types, palette = colors)
+plt.xlabel('Longitude (degrees)')
+plt.ylabel('Latitude (degrees)')
