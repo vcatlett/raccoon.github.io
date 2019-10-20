@@ -2,6 +2,7 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 
+data = pd.read_csv('data.csv')
 radii = [1.0, 5.0, 25.0, 50.0, 100.0]
 col_names = ['R1', 'R5', 'R25', 'R50', 'R100']
 
