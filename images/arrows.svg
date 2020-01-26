@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="94px" height="201px" viewBox="0 0 94 201" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 50.2 (55047) - http://www.bohemiancoding.com/sketch -->
+    <title>arrows</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Group" transform="translate(-120.000000, -271.000000)">
+            <g id="arrows" transform="translate(120.000000, 271.000000)">
+                <g id="arrows/arrow-4.1" transform="translate(47.000000, 100.500000) scale(-1, 1) translate(-47.000000, -100.500000) ">
+                    <g id="arrow-4.1">
+                        <path d="M93,3 L70.9933717,3 C65.4741849,3 61,7.4860591 61,13.0056942 L61,187.994306 C61,193.520298 65.4831571,198 70.9933717,198 L93,198" id="Path-4" stroke="#89969F"></path>
+                        <path d="M61.5185909,100.797619 L0.995833406,100.797619" id="Path-5" stroke="#89969F"></path>
+                        <circle id="Oval--Copy-3" stroke="#89969F" fill="#FFFFFF" cx="4" cy="100.5" r="3"></circle>
+                        <polygon id="Triangle-2-Copy-2" fill="#89969F" points="91 6 91 0 94 3"></polygon>
+                        <polygon id="Triangle-2-Copy-4" fill="#89969F" points="91 201 91 195 94 198"></polygon>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
